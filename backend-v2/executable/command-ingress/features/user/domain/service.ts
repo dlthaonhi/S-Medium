@@ -45,23 +45,23 @@ export class UserServiceImpl implements UserService {
     };
   }
 
-  async unfollow(userId: string, followId: string): Promise<UserFollowEntity> {
-    if (userId == followId) {
+  async unfollowUser(userId: string, unfollowId: string): Promise<UserFollowEntity> {
+    if (userId == unfollowId) {
       throw new Error("You cannot unfollow yourself.");
     }
     
     const user = await UserModel.findById(userId);
-    const followUser = await UserModel.findById(followId);
+    const unfollowUser = await UserModel.findById(unfollowId);
 
-    if (!user || !followUser) {
+    if (!user || !unfollowUser) {
       throw new Error("User: not found.");
     }
 
-    user.followings = user.followings.filter(id => id !== followUser.id);
-    followUser.followers = followUser.followers.filter(id => id !== user.id);
+    user.followings = user.followings.filter(id => id !== unfollowUser.id);
+    unfollowUser.followers = unfollowUser.followers.filter(id => id !== user.id);
 
     await user.save();
-    await followUser.save();
+    await unfollowUser.save();
     return {
       id: String(user._id),
       name: String(user.name),
