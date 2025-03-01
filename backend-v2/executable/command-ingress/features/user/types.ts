@@ -15,6 +15,8 @@ type UserFollowEntity = {
 
 interface UserService {
   getOne(id: string): Promise<UserEntity>;
+  followUser(userId: string, followId: string): Promise<UserFollowEntity>;
+  unfollowUser(userId: string, unfollowId: string): Promise<UserFollowEntity>
 }
 
 export {

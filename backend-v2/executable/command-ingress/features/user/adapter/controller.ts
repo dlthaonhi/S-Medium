@@ -19,4 +19,24 @@ export class UserController extends BaseController {
       return;
     });
   }
+
+  async followUser(req: HttpRequest, res: Response, next: NextFunction): Promise<void> {
+    await this.execWithTryCatchBlock(req, res, next, async (req, res, _next) => {
+      const { id } = req.params;
+      const followId = req.body.followId;
+      const followed = await this.service.followUser(id, followId);
+      res.status(200).json(followed);
+      return;
+    });
+  }
+
+  async unfollowUser(req: HttpRequest, res: Response, next: NextFunction): Promise<void> {
+    await this.execWithTryCatchBlock(req, res, next, async (req, res, _next) => {
+      const { id } = req.params;
+      const unfollowId = req.body.followId;
+      const unfollowed = await this.service.unfollowUser(id, unfollowId);
+      res.status(200).json(unfollowed);
+      return;
+    });
+  }
 }
